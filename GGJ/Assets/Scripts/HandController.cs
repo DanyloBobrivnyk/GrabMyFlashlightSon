@@ -33,6 +33,7 @@ public class HandController : MonoBehaviour {
     private KeyCode BackwardKeyCode;
     [SerializeField]
     private KeyCode GrabKeyCode;
+    private GameObject grabbedGameObject;
 
     private void Grab() {
         RaycastHit hit;
@@ -41,7 +42,7 @@ public class HandController : MonoBehaviour {
             Debug.DrawRay(transform.position,Vector3.forward * hit.distance,Color.yellow);
             Debug.Log(hit.ToString());
             
-            GameObject grabbedGameObject = hit.transform.gameObject;
+            grabbedGameObject = hit.transform.gameObject;
             IGrabbable grabbable = grabbedGameObject.GetComponent<IGrabbable>();
             if (grabbable != null) {
                 animator.SetBool("grab", true);
@@ -75,8 +76,7 @@ public class HandController : MonoBehaviour {
         }
         if (Input.GetKey(LeftKeyCode)) {
             rigidbody.AddForce(Vector3.left * Thrust);
-        }
-                
+        }             
         if (Input.GetKey(ForwardKeyCode)) {
             rigidbody.AddForce(Vector3.forward * Thrust);
         }
@@ -96,5 +96,9 @@ public class HandController : MonoBehaviour {
             }
             
         }
+        /*if (grabbedGameObject != null && !grabbedGameObject.GetComponent<WireClass>().enabled)
+        {
+            animator.SetBool("grab", false);TODO
+        }*/
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class QuestManager : MonoBehaviour
 {
@@ -10,59 +11,48 @@ public class QuestManager : MonoBehaviour
     [SerializeField]
     private List<Transform> startPositions;
     List<WireClass> wireClone;
-
-
-    //private List<Vector3> startPoints;
-
-    /*
-        private void AddToListMaterials(ref List<Material> materials)
-        {
-            Color green = Color.green;
-        }*/
-    private void AddToListDestination(ref List<Vector3> destinationPoints)
-    {
-        Vector3 first = new Vector3(1, 1);
-        Vector3 second = new Vector3(2, 2);
-
-        destinationPoints.Add(first);
-        destinationPoints.Add(second);
-    }
+    public static int globalCounter;
+    [SerializeField]
+    private TextMeshProUGUI tekstMesh;
     void Start()
     {
-        //for (int k = 0; k < wires.Count; k++)
-        //{
-        //    int counter = 0;
-        //    int random = Random.Range(1, 6);
-        //    wires[random].SharedMaterial = 
-        //}
-        Debug.Log("Before first foreach: " + wires.Count);
         foreach (var wire in wires)
         {
-            int randomMat = Random.Range(0, materials.Count-1);
-            wire.SharedMaterial = materials[randomMat];
-            wire.StartPosition = startPositions[randomMat].position;
-            startPositions.RemoveAt(randomMat);
-            materials.RemoveAt(randomMat);
+            //int randomDest = Random.Range(0, materials.Count - 1);
+            int randomMat = Random.Range(0, materials.Count - 1);
+                wire.SharedMaterial = materials[randomMat];
+                wire.StartPosition = startPositions[randomMat].position;
+                startPositions.RemoveAt(randomMat);
+                materials.RemoveAt(randomMat);
         }
         CopyWires(wires, ref wireClone);
-        Debug.Log("After first foreach: " + wires.Count);
+
 
         for (int i = 0; i < wires.Count; i++)
         {
             int rand = Random.Range(0, wires.Count - 1);
-            wires[i].DestinationPoint = wireClone[rand].StartPosition;
+            //******Debug.Log($"Rand = {rand}; i = {i}");
+            if (rand != i)
+            {
+                wires[i].DestinationPoint = wireClone[rand].StartPosition;
+            }
+            else
+            {
+                Debug.Log("Backward");
+                i--;
+            }
         }
-        Debug.Log("After Second foreach: " + wires.Count);
 
-        foreach (WireClass wire in wires)
-        {
-            Debug.Log("My Color is: " + wire.SharedMaterial.color);
-            Debug.Log("My start position is: " + wire.StartPosition);
-            Debug.Log("My destination point is: " + wire.DestinationPoint);
-
-        }
     }
 
+    private void Update()
+    {
+       if(globalCounter >= 6)
+        {
+            tekstMesh.text = "YOU WON !!!";
+            Time.timeScale = 0;
+        }
+    }
     private void CopyWires(List<WireClass> wires, ref List<WireClass> clone)
     {
         clone = wires;
