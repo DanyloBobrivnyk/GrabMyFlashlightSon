@@ -14,7 +14,7 @@ public class QuestManager : MonoBehaviour
     public static int globalCounter;
     [SerializeField]
     private TextMeshProUGUI tekstMesh;
-    void Start()
+    void Awake()
     {
         foreach (var wire in wires)
         {
