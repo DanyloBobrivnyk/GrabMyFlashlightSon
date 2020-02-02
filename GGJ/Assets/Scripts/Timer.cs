@@ -11,12 +11,13 @@ public class Timer : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _timerText;
     private void Start()
     {
-        
+        SoundManager.instance.PlaySound("Flashlight_theme");
     }
     private void Update()
     {
         timeSpended += Time.deltaTime;
         _timerText.text = timeSpended.ToString("F2");
+        
 /*        if(timeSpended%60 == 0)TODO
         {
             _timerText.text = (timeSpended /= 60).ToString();

@@ -13,17 +13,20 @@ public class WireClass : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.transform.position == DestinationPoint)
+        if (other.transform.position == DestinationPoint)
         {
             QuestManager.globalCounter++;
+            SoundManager.instance.PlaySound("Button_Place");
             this.gameObject.GetComponent<DragableGameObject>().enabled = false;
-            this.gameObject.GetComponent<BoxCollider>().enabled = false;
+            this.gameObject.GetComponent<BoxCollider>().enabled = false;          
         }
-        else if(other.transform.position != DestinationPoint && other.transform.position != StartPosition)
+        else if (other.transform.position != DestinationPoint && other.transform.position != StartPosition)
         {
+
             Time.timeScale = 0;
             textMesh.text = "You lose !";
-        }
+            //Artur Kukielka
+        }           
     }
 
 }

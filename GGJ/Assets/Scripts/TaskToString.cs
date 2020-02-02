@@ -9,6 +9,38 @@ public class TaskToString : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI tekstMesh;
 
+    private int r, g, b;
+    private string colorName;
+    private string ConvertToWord(Color RGBA)
+    {
+        string colorName = ColorUtility.ToHtmlStringRGBA(RGBA);
+        if (colorName == Color.white.ToString())
+        {
+            return "white";
+        }
+        else if(colorName == "000100")
+        {
+            return "green";
+        }
+        else if(colorName == "000000")
+        {
+            return "black";
+        }
+        else if (colorName == "000001")
+        {
+            return "blue";
+        }
+        else if (colorName == "010000")
+        {
+            return "red";
+        }
+        else if (colorName == "000101")
+        {
+            return "cyan";
+        }
+        return "don't know";
+    }
+
     private void Start()
     {
         questManager = GetComponent<QuestManager>();
@@ -16,14 +48,15 @@ public class TaskToString : MonoBehaviour
         {
             for(int i=0;i<questManager.wires.Count;i++)
             {
-                if (questManager.wires[k].DestinationPoint != questManager.wires[i].StartPosition)
+                if (questManager.wires[k].DestinationPoint == questManager.wires[i].StartPosition)
                 {
-                    continue;
+                    tekstMesh.text += ($"{questManager.wires[k].SharedMaterial.name} move to {questManager.wires[i].SharedMaterial.name}\n");
+                    break;
+
                 }
                 else
                 {
-                    Debug.Log("text func");
-                    tekstMesh.text += $"From {questManager.wires[k].SharedMaterial.color.ToString("F5")} point move to {questManager.wires[i].SharedMaterial.color.ToString("F5")} point\n";
+                    continue;
                 }
             }
         }
